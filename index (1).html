@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dynamic Login Authentication</title>
+    <style>
+        body {
+            background: linear-gradient(120deg, #6a89cc, #b8e994);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-container {
+            background: #fff;
+            max-width: 370px;
+            margin: auto;
+            padding: 40px 35px 30px 35px;
+            border-radius: 14px;
+            box-shadow: 0 6px 32px rgba(0,0,0,0.13);
+            animation: fadeIn 0.9s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-60px); }
+            to { opacity:1; transform: translateY(0);}
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 500;
+            color: #3861f3;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .input-group {
+            position: relative;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 10px 10px 10px 34px;
+            border-radius: 5px;
+            border: 1px solid #b8e994;
+            font-size: 16px;
+            margin-bottom: 14px;
+            outline: none;
+            transition: border-color 0.25s;
+        }
+        .input-group input:focus {
+            border-color: #3861f3;
+        }
+        .input-icon {
+            position: absolute;
+            top: 13px;
+            left: 8px;
+            color: #6a89cc;
+            font-size: 18px;
+            pointer-events: none;
+        }
+        button {
+            width: 100%;
+            background: linear-gradient(90deg, #3861f3, #6a89cc);
+            color: #fff;
+            padding: 10px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.18s;
+            box-shadow: 0 3px 8px rgba(58,97,243,0.09);
+        }
+        button:hover {
+            transform: scale(1.06);
+            box-shadow: 0 6px 20px rgba(58,97,243,0.23);
+            background: linear-gradient(90deg, #6a89cc, #3861f3);
+        }
+        #message {
+            text-align: center;
+            margin-top: 10px;
+            font-weight: 500;
+            transition: color 0.24s;
+        }
+        .valid {
+            border-color: #32cd32 !important;
+        }
+        .invalid {
+            border-color: #d0342c !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form id="loginForm" autocomplete="off">
+            <div class="input-group">
+                <span class="input-icon">&#128100;</span>
+                <input type="text" id="username" placeholder="Username" required>
+            </div>
+            <div class="input-group">
+                <span class="input-icon">&#128274;</span>
+                <input type="password" id="password" placeholder="Password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        <p id="message"></p>
+    </div>
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const message = document.getElementById('message');
+
+        // Demo credentials
+        const USERNAME = 'admin';
+        const PASSWORD = '12345';
+
+        // Live input validation
+        usernameInput.addEventListener('input', function() {
+            validateField(usernameInput, usernameInput.value.length >= 3);
+        });
+        passwordInput.addEventListener('input', function() {
+            validateField(passwordInput, passwordInput.value.length >= 5);
+        });
+
+        function validateField(input, condition) {
+            input.classList.remove('valid', 'invalid');
+            if (input.value.length === 0) return;
+            input.classList.add(condition ? 'valid' : 'invalid');
+        }
+
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (usernameInput.value === USERNAME && passwordInput.value === PASSWORD) {
+                message.style.color = '#32cd32';
+                message.textContent = 'Login successful! 🎉';
+                loginForm.reset();
+                setTimeout(() => message.textContent = '', 2000);
+            } else {
+                message.style.color = '#d0342c';
+                message.textContent = 'Invalid username or password.';
+            }
+        });
+    </script>
+</body>
+</html>
